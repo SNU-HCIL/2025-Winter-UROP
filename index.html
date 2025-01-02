@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Links</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    #pdf-list {
+      list-style-type: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #pdf-list li {
+      background-color: #ffffff;
+      margin: 10px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #pdf-list li a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+
+    #pdf-list li a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    async function fetchPDFs() {
+      const repoOwner = 'SNU-HCIL';
+      const repoName = '2025-Winter-UROP';
+
+      const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+      const response = await fetch(apiUrl);
+      const files = await response.json();
+
+      const pdfList = document.getElementById('pdf-list');
+      files.forEach(file => {
+        if (file.name.endsWith('.pdf')) {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = `https://${repoOwner}.github.io/${repoName}/${file.name}`;
+          link.textContent = file.name;
+          link.target = '_blank';
+          li.appendChild(link);
+          pdfList.appendChild(li);
+        }
+      });
+    }
+
+    window.onload = fetchPDFs;
+  </script>
+</head>
+
+<body>
+  <h1>PDF Files</h1>
+  <ul id="pdf-list">
+    <!-- PDF 목록이 여기에 추가됩니다 -->
+  </ul>
+</body>
+
+</html>
